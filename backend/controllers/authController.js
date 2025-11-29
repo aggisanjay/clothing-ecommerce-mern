@@ -4,10 +4,13 @@ import jwt from "jsonwebtoken";
 const createToken=(res,id)=>{
   const token = jwt.sign({id},process.env.JWT_SECRET,{expiresIn:"7d"});
 
-  res.cookie("jwt",token,{
-    httpOnly:true,
-    maxAge:7*24*60*60*1000
-  });
+  res.cookie("jwt", token, {
+  httpOnly: true,
+  secure: true,          // ✅ allows https cookies
+  sameSite: "None",     // ✅ cross-site cookies allowed
+  maxAge: 7 * 24 * 60 * 60 * 1000
+});
+
 }
 
 export const register = async(req,res)=>{
