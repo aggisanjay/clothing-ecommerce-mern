@@ -38,9 +38,17 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await api.post("/auth/logout").catch(() => {});
+   await api.post(
+      "/auth/logout",
+      {},
+      { withCredentials: true }
+    );
+
     setUser(null);
     toast.success("Logged out");
+
+    window.location.reload();
+    
   };
 
   return (
