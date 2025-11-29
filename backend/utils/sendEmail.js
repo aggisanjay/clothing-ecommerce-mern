@@ -35,7 +35,7 @@
 import nodemailer from "nodemailer";
 
 const sendOrderEmail = async (order, user) => {
-
+console.log("➡️ Sending order email to:", user.email);
   try {
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
