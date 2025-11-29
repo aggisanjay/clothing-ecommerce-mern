@@ -40,8 +40,7 @@ app.use(
   })
 );
 
-// ✅ Handle preflight
-app.options("/*", cors());
+
 
 
 app.use("/api/auth",authRoutes);
