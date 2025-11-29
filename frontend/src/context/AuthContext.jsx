@@ -11,11 +11,12 @@ export const AuthProvider = ({ children }) => {
   // load user on mount
   useEffect(() => {
     api
-      .get("/auth/me")
-      .then((res) => setUser(res.data))
+      .get("/auth/me", { withCredentials: true })
+      .then(res => setUser(res.data))
       .catch(() => setUser(null))
       .finally(() => setLoading(false));
   }, []);
+
 
   const login = async (email, password) => {
     try {
