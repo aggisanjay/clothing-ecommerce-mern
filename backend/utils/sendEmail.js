@@ -55,7 +55,7 @@ console.log("➡️ Sending order email to:", user.email);
     console.log("✅ SMTP connected");
 
     await transporter.sendMail({
-      from: `"Clothify" <${process.env.EMAIL_USER}>`,   // ✅ match SMTP user
+      from: process.env.SENDER_EMAIL,   
       to: user.email,
       subject: `Order Confirmation - ${order._id}`,
       html: `
