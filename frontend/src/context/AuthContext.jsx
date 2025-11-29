@@ -5,10 +5,11 @@ import toast from "react-hot-toast";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // load user on mount
+  // LOAD USER ON FIRST LOAD
   useEffect(() => {
     api
       .get("/auth/me", { withCredentials: true })
@@ -17,29 +18,43 @@ export const AuthProvider = ({ children }) => {
       .finally(() => setLoading(false));
   }, []);
 
-
+  // LOGIN
   const login = async (email, password) => {
     try {
-      const res = await api.post("/auth/login", { email, password });
+      const res = await api.post(
+        "/auth/login",
+        { email, password },
+        { withCredentials: true }
+      );
+
       setUser(res.data);
       toast.success("Logged in successfully");
+
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed");
     }
   };
 
+  // REGISTER
   const register = async (payload) => {
     try {
-      const res = await api.post("/auth/register", payload);
+      const res = await api.post(
+        "/auth/register",
+        payload,
+        { withCredentials: true }
+      );
+
       setUser(res.data);
       toast.success("Account created");
+
     } catch (err) {
       toast.error(err.response?.data?.message || "Registration failed");
     }
   };
 
+  // LOGOUT ✅ real cookie clear
   const logout = async () => {
-   await api.post(
+    await api.post(
       "/auth/logout",
       {},
       { withCredentials: true }
@@ -48,8 +63,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     toast.success("Logged out");
 
-    window.location.reload();
-    
+    window.location.reload(); // ✅ force memory purge
   };
 
   return (
