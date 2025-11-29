@@ -17,10 +17,32 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(cors({
-  origin:"https://clothing-ecommerce-mern.vercel.app",
-  credentials:true
-}));
+const allowedOrigins = [
+  "https://clothing-ecommerce-mern.vercel.app",
+  "http://localhost:5173"
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // allow server-to-server or Postman calls (no origin)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS ❌ Origin blocked"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+// ✅ Handle preflight
+app.options("*", cors());
+
 
 app.use("/api/auth",authRoutes);
 app.use("/api/products",productRoutes);
