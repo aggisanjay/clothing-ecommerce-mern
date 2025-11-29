@@ -37,6 +37,17 @@ export const login = async(req,res)=>{
 
 };
 
+export const logout = (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    expires: new Date(0),
+  });
+
+  res.json({ message: "Logged out" });
+};
+
 export const me = async(req,res)=>{
   res.json(req.user);
 }
