@@ -200,20 +200,6 @@ GET	/api/products
 
 GET	/api/products/:id
 
-Supports:
-
-?search=
-
-&category=
-
-&minPrice=
-
-&maxPrice=
-
-&page=
-
-&limit=
-
 # Cart
 
 Method	Route
